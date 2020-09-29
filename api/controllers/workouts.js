@@ -1,13 +1,13 @@
-const express = require('express');
-const router = express.Router();
 const db = require('../util/database');
+const express = require('express');
 
-router.get('/getAllWorkouts', (req, res, next) => {
+exports.getAllWorkouts = (req, res, next) => {
     db.query('SELECT * FROM workouts', (errors, results, fields) => {
         console.log(results);
     });
-});
-router.post('/addWorkout', (req, res, next) => {
+};
+
+exports.addWorkout = (req, res, next) => {
     db.query('SELECT id FROM workout_user WHERE user_email=?', [req.body.email],
         (error, results, fields) => {
             console.log(results);
@@ -32,11 +32,11 @@ router.post('/addWorkout', (req, res, next) => {
             res.status(200).json({
                 message: results
             });
-        });
-});
+        }
+    );
+};
 
-router.post('/deleteWorkout', (req, res, next) => {
-    //req body should hold workout id
+exports.deleteWorkout = (req, res, next) => {
     db.query('DELETE FROM workout WHERE workout_id = ?', [req.body.workoutid],
         (errors, results, fields) => {
             if (errors) {
@@ -49,9 +49,9 @@ router.post('/deleteWorkout', (req, res, next) => {
                 });
             }
         });
-});
+};
 
-router.get('/getAllUserWorkouts', (req, res, next) => {
+exports.getAllUserWorkouts = (req, res, next) => {
     db.query('SELECT * FROM workouts WHERE userid = ?', [req.body.userid],
         (errors, results, fields) => {
             if (errors) {
@@ -64,9 +64,9 @@ router.get('/getAllUserWorkouts', (req, res, next) => {
                 });
             }
         });
-});
+};
 
-router.get('/getAllWorkoutExercises', (req, res, next) => {
+exports.getWorkoutExercises = (req, res, next) => {
     db.query('SELECT * FROM exercises WHERE workoutid = ?', [req.body.workoutid],
         (errors, results, fields) => {
             if (errors) {
@@ -79,22 +79,4 @@ router.get('/getAllWorkoutExercises', (req, res, next) => {
                 });
             }
         });
-});
-
-router.post('/deleteAllUserExercises', (req, res, next) => {
-    const workoutId = req.body.workoutId;
-    db.query('DELETE FROM exercises WHERE workoutid=?', [workoutId],
-        (errors, results, fields) => {
-            if (errors) {
-                res.status(200).json({
-                    error: errors
-                });
-            } else {
-                res.status(200).json({
-                    results: results
-                });
-            }
-        });
-});
-
-module.exports = router;
+};

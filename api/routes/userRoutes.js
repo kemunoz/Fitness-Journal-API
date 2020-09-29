@@ -7,4 +7,5 @@ router.post('/signUp', UserController.signUp);
 // router.get('/Userid', UserController.getId);
 router.get('/getAllUsers', UserController.getAllUsers);
 router.post('/deleteUser', UserController.deleteUser);
+router.post('/login', UserController.userLogin);
 module.exports = router;
