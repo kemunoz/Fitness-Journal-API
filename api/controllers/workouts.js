@@ -52,7 +52,7 @@ exports.deleteWorkout = (req, res, next) => {
 };
 
 exports.getAllUserWorkouts = (req, res, next) => {
-    db.query('SELECT * FROM workouts WHERE userid = ?', [req.body.userid],
+    db.query('SELECT * FROM workouts WHERE user_id = ?', [req.body.userid],
         (errors, results, fields) => {
             if (errors) {
                 res.status(400).json({
@@ -67,7 +67,7 @@ exports.getAllUserWorkouts = (req, res, next) => {
 };
 
 exports.getWorkoutExercises = (req, res, next) => {
-    db.query('SELECT * FROM exercises WHERE workoutid = ?', [req.body.workoutid],
+    db.query('SELECT * FROM exercises WHERE workout_id = ?', [req.body.workoutid],
         (errors, results, fields) => {
             if (errors) {
                 res.status(400).json({
