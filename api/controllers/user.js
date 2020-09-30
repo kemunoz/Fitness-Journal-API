@@ -4,23 +4,26 @@ const db = require('../util/database');
 
 exports.signUp = (req, res, next) => {
     const email = req.body.email;
+    console.log('In the sign up method');
     isValidUser(req.body.email).then(result => {
         if (result.isUser) {
             res.status(409).json({
                 message: "User Already Exists"
             });
         } else {
+            console.log("user dne");
             user = {
                 email: req.body.email,
                 password: req.body.password
             };
-            createUser(userInfo).then(result => {
+            createUser(user).then(result => {
                 res.status(200).json(result);
             }).catch(error => {
                 res.status(404).json(error);
             });
         }
     }).catch(errors => {
+        console.log("in the catch");
         res.status(404).json({
             error: errors
         });
@@ -84,12 +87,13 @@ exports.userLogin = (req, res, next) => {
 
 
 //utility functions
-const isValidUser = email => {
+const isValidUser = (email) => {
     return new Promise(function (resolve, reject) {
-        db.query('SELECT * FROM user WHERE user_email = ?', [email],
+        db.query('SELECT * FROM users WHERE user_email = ?', [email],
             (errors, results, fields) => {
                 if (errors) {
-                    reject(errors);
+                    console.log("there was an error");
+                    throw errors;
                 } else {
                     const isUser = results.length > 0 ? true : false;
                     const result = {
@@ -104,17 +108,19 @@ const isValidUser = email => {
 };
 
 const createUser = userInfo => {
+    console.log("in the createUser Method");
     return new Promise(function (resolve, reject) {
         bcrypt.hash(userInfo.password, 10).then((hashedPassword) => {
             const newUser = {
                 user_email: userInfo.email,
                 password: hashedPassword
             };
+            console.log("made it to hashing");
             db.query(
                 'INSERT INTO users SET ?', newUser, (error, results, fields) => {
                     if (error) {
-                        reject(error);
                         console.log(error);
+                        reject(error);
                     } else {
                         console.log(results);
                         const response = {

@@ -8,7 +8,7 @@ exports.getAllWorkouts = (req, res, next) => {
 };
 
 exports.addWorkout = (req, res, next) => {
-    db.query('SELECT id FROM workout_user WHERE user_email=?', [req.body.email],
+    db.query('SELECT id FROM user WHERE user_email=?', [req.body.email],
         (error, results, fields) => {
             console.log(results);
             const workout = {
@@ -16,7 +16,7 @@ exports.addWorkout = (req, res, next) => {
                 userid: results[0].id,
                 notes: req.body.notes
             };
-            db.query('INSERT INTO workout VALUES SET ?',
+            db.query('INSERT INTO workouts VALUES SET ?',
                 workout,
                 (errors, results, fields) => {
                     if (error) {
@@ -37,7 +37,7 @@ exports.addWorkout = (req, res, next) => {
 };
 
 exports.deleteWorkout = (req, res, next) => {
-    db.query('DELETE FROM workout WHERE workout_id = ?', [req.body.workoutid],
+    db.query('DELETE FROM workouts WHERE workout_id = ?', [req.body.workoutid],
         (errors, results, fields) => {
             if (errors) {
                 res.status(400).json({
