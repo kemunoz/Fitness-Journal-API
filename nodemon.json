@@ -1,0 +1,6 @@
+{
+    "env": {
+        "CLOUD_SQL_PASSWORD": "Km709997341!",
+        "DATABASE_NAME": "FitnessJournal"
+    }
+}
