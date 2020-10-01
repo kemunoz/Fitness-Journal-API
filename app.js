@@ -1,15 +1,20 @@
-const express = require('express');
-const userRoutes = require('./api/routes/userRoutes');
-const workoutRoutes = require('./api/routes/workoutRoutes');
 const db = require('./api/util/database');
 const morgan = require('morgan');
+const express = require('express');
 const app = express();
 const helmet = require('helmet');
-const helmet = require('compression');
+const compression = require('compression');
+const fs = require('fs');
+const path = require('path');
 
 
+const userRoutes = require('./api/routes/userRoutes');
+const workoutRoutes = require('./api/routes/workoutRoutes');
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
+    { flags: 'a' }
+);
 
-app.use(morgan('dev'));
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.urlencoded());
 app.use(express.json());
 

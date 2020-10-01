@@ -4,14 +4,12 @@ const db = require('../util/database');
 
 exports.signUp = (req, res, next) => {
     const email = req.body.email;
-    console.log('In the sign up method');
     isValidUser(req.body.email).then(result => {
         if (result.isUser) {
             res.status(409).json({
                 message: "User Already Exists"
             });
         } else {
-            console.log("user dne");
             user = {
                 email: req.body.email,
                 password: req.body.password
@@ -23,7 +21,6 @@ exports.signUp = (req, res, next) => {
             });
         }
     }).catch(errors => {
-        console.log("in the catch");
         res.status(404).json({
             error: errors
         });
@@ -34,9 +31,13 @@ exports.getAllUsers = (req, res, next) => {
     db.query(
         'SELECT * FROM workout_user', (error, results, fields) => {
             if (error) {
-                console.log(error);
+                res.status(error.code).json({
+                    message: "Internal Error"
+                })
             } else {
-                console.log(results);
+                res.status(200).json({
+                    results: results
+                });
             }
         }
     );
@@ -52,7 +53,6 @@ exports.deleteUser = (req, res, next) => {
                     error: error
                 });
             } else {
-                console.log(results);
                 res.status(200).json({
                     message: 'User Deleted'
                 });
@@ -92,7 +92,6 @@ const isValidUser = (email) => {
         db.query('SELECT * FROM users WHERE user_email = ?', [email],
             (errors, results, fields) => {
                 if (errors) {
-                    console.log("there was an error");
                     throw errors;
                 } else {
                     const isUser = results.length > 0 ? true : false;
@@ -108,21 +107,17 @@ const isValidUser = (email) => {
 };
 
 const createUser = userInfo => {
-    console.log("in the createUser Method");
     return new Promise(function (resolve, reject) {
         bcrypt.hash(userInfo.password, 10).then((hashedPassword) => {
             const newUser = {
                 user_email: userInfo.email,
                 password: hashedPassword
             };
-            console.log("made it to hashing");
             db.query(
                 'INSERT INTO users SET ?', newUser, (error, results, fields) => {
                     if (error) {
-                        console.log(error);
                         reject(error);
                     } else {
-                        console.log(results);
                         const response = {
                             message: 'User Created'
                         };
