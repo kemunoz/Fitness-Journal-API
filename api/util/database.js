@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const SocksConnection = require('socksjs');
 const fixieURL = process.env.FIXIE_SOCKS_HOST;
-const fixieValues = fixieUrl.split(new RegExp('[/(:\\/@)/]+'));
+const fixieValues = fixieURL.split(new RegExp('[/(:\\/@)/]+'));
 
 const mysqlServer = {
     host: '34.94.232.187',
