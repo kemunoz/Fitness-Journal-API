@@ -8,7 +8,7 @@ const mysqlServer = {
     port: 3306
 };
 
-const fixiConnection = new SocksConnection(mysqlServer, {
+const fixieConnection = new SocksConnection(mysqlServer, {
     user: fixieValues[0],
     pass: fixieValues[1],
     host: fixieValues[2],
