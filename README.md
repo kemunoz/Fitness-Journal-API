@@ -6,3 +6,5 @@ Outlines the routes used for user creation or deleteion requests
 #### /api/routes/workoutRoutes
 Outlines the routes used for workout creation or deleteion requests
 
+#### /api/controllers
+
