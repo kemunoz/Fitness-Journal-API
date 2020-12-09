@@ -1,4 +1,3 @@
-const db = require('./api/util/database');
 const morgan = require('morgan');
 const express = require('express');
 const app = express();

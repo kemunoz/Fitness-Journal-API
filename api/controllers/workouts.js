@@ -1,6 +1,29 @@
 const db = require('../util/database');
 const express = require('express');
 
+const workoutEnums = {
+    BENCH_PRESS: 1,
+    INCLINE_DB_PRESS: 2,
+    DB_OVERHEAD_PRESS: 3,
+    INCLINE_DB_PRESS: 4,
+    TRICEP_PUSHDOWN: 5,
+    OVERHEAD_TRICEP_EXTENSION: 6,
+    LATERAL_RAISE: 7,
+    BARBELL_ROW: 8,
+    PULLDOWN: 9,
+    CHEST_SUPPORTED_ROWS: 10,
+    FACE_PULLS: 11,
+    HAMMER_CURLS: 12,
+    DB_CURLS: 13,
+    SQUAT: 14,
+    RDL: 15,
+    LEG_PRESS: 16,
+    LEG_CURLS: 17,
+    CALF_RAISES: 18,
+    CHEST_FLYS: 19,
+    LEG_EXTENSIONS: 20
+}
+
 exports.getAllWorkouts = (req, res, next) => {
     db.query('SELECT * FROM workouts', (errors, results, fields) => {
         console.log(results);
