@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const db = require('../util/database');
 
+
 exports.signUp = (req, res, next) => {
     const email = req.body.email;
     isValidUser(req.body.email).then(result => {
